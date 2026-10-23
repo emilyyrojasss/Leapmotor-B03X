@@ -14,6 +14,7 @@
   initNav();
   initToggles();
   initForm();
+  initMedia();
 
   if (!window.gsap || !window.ScrollTrigger) {
     return;
@@ -52,42 +53,6 @@
   const onScroll = () => nav.classList.toggle('is-scrolled', scrollY > 40);
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-
-  /* ---------- Splash de entrada (ref. leapmotor.net): "B03X" recortado que crece y hace zoom ---------- */
-  const splashDone = new Promise((resolve) => {
-    const sp = $('#intro-splash');
-    if (!sp) return resolve();
-    const text = $('#splash-text', sp);
-    window.scrollTo(0, 0);
-    lenis?.stop();
-    document.documentElement.style.overflow = 'hidden';
-    const finish = () => {
-      sp.remove();
-      document.documentElement.style.overflow = '';
-      lenis?.start();
-      resolve();
-    };
-    const fit = () => text.setAttribute('font-size', Math.min(innerWidth * 0.26, innerHeight * 0.42));
-    fit();
-    if (reduce) { gsap.to(sp, { opacity: 0, duration: 0.6, delay: 0.8, onComplete: finish }); return; }
-
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
-      fit();
-      // punto de zoom: sobre el trazo izquierdo del "0", así el recorte termina cubriendo toda la pantalla
-      let ox = innerWidth / 2, oy = (innerHeight - 72) / 2;
-      try {
-        const e = text.getExtentOfChar(1);
-        ox = e.x + e.width * 0.13; oy = e.y + e.height * 0.5;
-      } catch (_) {}
-      gsap.timeline({ onComplete: finish })
-        .from('.intro-splash__band', { yPercent: (i) => (i % 2 ? 100 : -100), duration: 0.9, ease: 'expo.out', stagger: { each: 0.05, from: 'center' } }, 0)
-        .fromTo(text, { opacity: 0, scale: 0.82, svgOrigin: `${innerWidth / 2} ${(innerHeight - 72) / 2}` },
-          { opacity: 1, scale: 1, duration: 1.8, ease: 'power2.out' }, 0.3)
-        .to(text, { scale: 70, svgOrigin: `${ox} ${oy}`, duration: 1.1, ease: 'power3.in' }, '+=0.1')
-        .to(sp, { opacity: 0, duration: 0.25 }, '-=0.2');
-    });
-    setTimeout(() => { if (document.body.contains(sp)) finish(); }, 7000);
-  });
 
   /* ---------- Hero: el B03X entra manejando y frena ---------- */
   initHero();
@@ -138,7 +103,7 @@
       ...imgs.map((i) => (i.decode ? i.decode().catch(() => {}) : null)),
     ]);
     const timeout = new Promise((r) => setTimeout(r, 2500));
-    Promise.all([Promise.race([ready, timeout]), splashDone]).then(() => requestAnimationFrame(play));
+    Promise.race([ready, timeout]).then(() => requestAnimationFrame(play));
 
     function play() {
       const T0 = 0.85;                                 // el carro aparece después de los faros
@@ -493,6 +458,45 @@
       items.forEach((d) => { d.open = openAll; });
       btn.innerHTML = openAll ? 'Ver menos <span aria-hidden="true">−</span>' : 'Ver todo <span aria-hidden="true">+</span>';
     }));
+  }
+
+  /* ---------- Playlist y Reto B03X ----------
+     Para completar: poné los enlaces de la playlist en PLAYLIST,
+     el canal en RETO_CANAL y el ID de cada video en data-youtube-id del HTML. */
+  function initMedia() {
+    const PLAYLIST = {
+      spotify: '', apple: '', youtube: '', deezer: '', amazon: '', soundcloud: '',
+    };
+    const RETO_CANAL = '';
+
+    $$('.m-plat').forEach((a) => {
+      const url = PLAYLIST[a.dataset.platform];
+      if (url) a.href = url;
+      else { a.classList.add('is-soon'); a.removeAttribute('target'); a.addEventListener('click', (e) => e.preventDefault()); }
+    });
+    const ch = $('#reto-channel');
+    if (ch) { if (RETO_CANAL) ch.href = RETO_CANAL; else { ch.addEventListener('click', (e) => e.preventDefault()); ch.title = 'Canal disponible pronto'; } }
+
+    // Videos: muestran la miniatura de YouTube y cargan el reproductor solo al hacer clic
+    $$('.m-video').forEach((v) => {
+      const id = (v.dataset.youtubeId || '').trim();
+      const btn = $('.m-video__play', v);
+      if (!id) { v.classList.add('is-soon'); return; }
+      // si no hay portada propia, usa la miniatura de YouTube
+      if (!$('img', btn)) {
+        const img = document.createElement('img');
+        img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`; img.alt = ''; img.loading = 'lazy';
+        btn.prepend(img);
+      }
+      btn.addEventListener('click', () => {
+        const f = document.createElement('iframe');
+        f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+        f.title = v.dataset.title || 'Reto B03X';
+        f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        f.allowFullscreen = true;
+        btn.replaceWith(f);
+      });
+    });
   }
 
   function initForm() {
