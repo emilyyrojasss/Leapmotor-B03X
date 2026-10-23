@@ -1,0 +1,705 @@
+/* =========================================================
+   Leapmotor B03X — landing
+   Marca: leapmotorcr.com (Montserrat, verde #64A028)
+   Movimiento y layout: referencia ORYZO (darkroom editorial)
+   ========================================================= */
+
+:root {
+  /* Paleta B03X */
+  --black: #000000;
+  --white: #ffffff;
+  --brown: #564b40;   /* Marrón — tono del B03X Bellota */
+  --cream: #f4dfc1;   /* Crema */
+  --sun: #f7dc54;     /* Amarillo */
+  --leaf: #a5d273;    /* Verde claro */
+  --forest: #0a320a;  /* Verde profundo */
+  --sky: #9acff7;     /* Celeste */
+  --pink: #e862c8;    /* Rosado */
+
+  /* Superficies */
+  --bg: var(--black);
+  --surface: #17130f;
+  --line: rgba(244, 223, 193, .18);
+  --line-soft: rgba(244, 223, 193, .08);
+  --muted: rgba(244, 223, 193, .55);
+
+  /* Texto */
+  --text: var(--white);
+  --text-dim: rgba(255, 255, 255, .66);
+
+  /* Marca */
+  --accent: #64a028;
+  --accent-soft: rgba(100, 160, 40, .2);
+
+  --font: "Montserrat", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --gutter: clamp(16px, 3vw, 41px);
+  --radius-card: 12px;
+  --radius-pill: 36px;
+  --radius-ghost: 22.5px;
+
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: auto; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+h1, h2, h3, p, figure, dl, dd { margin: 0; }
+
+::selection { background: var(--accent); color: var(--bg); }
+
+:focus-visible { outline: 1px dashed var(--accent); outline-offset: 4px; }
+
+/* ---------- Tipografía ---------- */
+.eyebrow, .label {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--accent);
+}
+.label { color: var(--text-dim); }
+
+/* ---------- Botones ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease);
+}
+.btn--solid { background: var(--accent); color: #000000; }
+.btn--solid:hover { background: #77b83a; transform: translateY(-1px); }
+.btn--ghost { border-color: var(--text); color: var(--text); border-radius: var(--radius-ghost); background: transparent; }
+.btn--ghost:hover { background: var(--text); color: var(--bg); }
+
+/* ---------- Nav: copia exacta del header de leapmotorcr.com (Elementor post-21) ---------- */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  padding: 0 64px;
+  background: #fff;
+  color: #080808;
+}
+.nav__inner {
+  display: flex;
+  align-items: center;
+  max-width: 1280px;
+  min-height: 72px;
+  margin: 0 auto;
+}
+/* Espacios proporcionales a la foto de referencia: logo → modelos 181px, modelos → Tecnología 139px, Nosotros → Contacto 60px */
+.nav__logo { display: flex; flex: none; }
+.nav__logo img { width: 192px; height: auto; max-width: none; }
+.nav__links { display: contents; }
+.nav__models, .nav__more { display: flex; flex: none; }
+.nav__spacer-a { flex: 160 1 0; }
+.nav__spacer-b { flex: 130 1 0; }
+.nav__more { margin-right: 62px; }
+.nav__links a {
+  display: block;
+  padding: 13px 10px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #080808;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav__cta-wrap { display: flex; flex: none; }
+.nav__cta { white-space: nowrap; }
+
+/* Laptops angostas: misma barra horizontal, un poco más compacta */
+@media (max-width: 1180px) {
+  .nav { padding: 0 32px; }
+  .nav__links a { padding: 13px 8px; font-size: 15px; }
+  .nav__more { margin-right: 24px; }
+}
+.nav__cta {
+  display: inline-block;
+  padding: 14px 20px;
+  border-radius: 30px;
+  background: #64a028;
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+}
+.nav__toggle { display: none; }
+
+@media (max-width: 900px) {
+  .nav { padding: 0 20px; }
+  .nav__inner { justify-content: space-between; gap: 16px; }
+  .nav__spacer-a, .nav__spacer-b { display: none; }
+  .nav__logo { margin-right: auto; }
+  .nav__toggle {
+    display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+    width: 44px; height: 44px;
+    padding: 0; border: 0; background: #fff; cursor: pointer;
+  }
+  .nav__toggle span { width: 22px; height: 2px; background: #000; transition: transform .3s, opacity .3s; }
+  .nav__toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav__toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav__toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav__links {
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    display: block;
+    background: #fff;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+  }
+  .nav__links.is-open { opacity: 1; visibility: visible; }
+  .nav__models, .nav__more { flex-direction: column; margin: 0; }
+  .nav__links a { padding: 13px 20px; font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .nav__logo img { width: 150px; }
+  .nav__cta { padding: 12px 16px; font-size: 14px; }
+}
+
+.progress { position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 60; }
+.progress span { display: block; height: 100%; width: 100%; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); }
+
+/* ---------- Hero: el carro recortado entra manejando ---------- */
+.hero {
+  position: relative;
+  height: 100svh;
+  min-height: 640px;
+  overflow: hidden;
+  background:
+    radial-gradient(55% 45% at 50% 68%, rgba(100,160,40,.10), transparent 70%),
+    radial-gradient(80% 60% at 50% 100%, #161a12, transparent 70%),
+    var(--bg);
+}
+.hero__eyebrow {
+  position: absolute;
+  left: var(--gutter);
+  top: clamp(92px, 13vh, 120px);
+  z-index: 3;
+}
+/* Wordmark gigante detrás del carro */
+.hero__title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 14vh;
+  display: flex;
+  justify-content: center;
+  font-size: clamp(120px, 27vw, 430px);
+  font-weight: 500;
+  line-height: .8;
+  letter-spacing: -.04em;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  padding-bottom: .02em;
+  z-index: 0;
+}
+.hero__title .char { display: inline-block; }
+
+.hero__stage { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.hero__track { position: absolute; inset: 0; will-change: transform; }
+.hero__car {
+  position: absolute;
+  left: calc(50% - min(37vw, 590px));
+  bottom: calc(21vh - min(74vw, 1180px) * 0.0733);
+  width: min(74vw, 1180px);
+  aspect-ratio: 1800 / 1000;
+  will-change: transform;
+}
+.hero__rig { position: absolute; inset: 0; }
+/* Reflejo: se voltea sobre la línea de las llantas (86,8% del lienzo) y se desvanece */
+.hero__rig--reflection {
+  transform: scaleY(-1);
+  transform-origin: 50% 86.8%;
+  opacity: .14;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 40%, #000 86%);
+          mask-image: linear-gradient(to bottom, transparent 40%, #000 86%);
+}
+.hero__body { position: absolute; inset: 0; transform-origin: 77% 87%; will-change: transform; }
+.hero__body img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero__sharp { z-index: 1; }
+.hero__blurred { z-index: 0; opacity: 0; will-change: opacity; }
+.hero__sheen, .hero__light, .hero__brake { z-index: 2; }
+/* Ruedas: mismas coordenadas que en el lienzo 1800×1000 del render lateral (el carro mira a la izquierda) */
+.wheel {
+  position: absolute;
+  width: calc(198 / 1800 * 100%);
+  aspect-ratio: 1;
+}
+.wheel, .wheel img { will-change: transform; }
+.wheel img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wheel .rim { z-index: 1; }
+.wheel .rim-blur { z-index: 0; opacity: 0; will-change: opacity, transform; }
+.wheel--front { left: calc((399 - 99) / 1800 * 100%);  top: calc((743 - 99) / 1000 * 100%); }
+.wheel--rear  { left: calc((1377 - 99) / 1800 * 100%); top: calc((745 - 99) / 1000 * 100%); }
+
+/* Destello de luz que recorre la carrocería (recortado con la silueta del carro) */
+.hero__sheen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  -webkit-mask: url(../assets/car/colors/side-tundra.webp) center / 100% 100% no-repeat;
+          mask: url(../assets/car/colors/side-tundra.webp) center / 100% 100% no-repeat;
+  mix-blend-mode: soft-light;
+  opacity: 0;
+}
+.hero__sheen i {
+  position: absolute; top: 0; bottom: 0; left: 0;
+  width: 30%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.6) 50%, transparent);
+  transform: translateX(-110%);
+  will-change: transform;
+}
+.hero__light, .hero__brake, .hero__beam, .hero__pool, .hero__streaks i { will-change: opacity, transform; }
+/* Faro delantero */
+.hero__light {
+  position: absolute;
+  left: calc(235 / 1800 * 100%);
+  top: calc(527 / 1000 * 100%);
+  width: 14%;
+  aspect-ratio: 2.4;
+  transform: translate(-55%, -50%);
+  background: radial-gradient(closest-side, rgba(235,244,255,1), rgba(170,205,255,.45) 35%, transparent 70%);
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+/* Luces de freno */
+.hero__brake {
+  position: absolute;
+  left: calc(1605 / 1800 * 100%);
+  top: calc(495 / 1000 * 100%);
+  width: 11%;
+  aspect-ratio: 1.6;
+  transform: translate(-45%, -50%);
+  background: radial-gradient(closest-side, rgba(255,60,50,1), rgba(255,30,30,.45) 40%, transparent 72%);
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+/* Haz de luz hacia adelante (el carro avanza hacia la izquierda) */
+.hero__beam {
+  position: absolute;
+  right: calc(100% - 235 / 1800 * 100%);
+  top: calc(527 / 1000 * 100%);
+  width: 95%;
+  height: 46%;
+  transform: translateY(-30%);
+  filter: blur(18px);          /* el desenfoque va en el contenedor para suavizar los bordes del recorte */
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+.hero__beam i {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 40% at 100% 50%, rgba(235,242,255,.45), transparent 70%),
+    linear-gradient(270deg, rgba(220,232,255,.22), rgba(220,232,255,.05) 60%, transparent);
+  clip-path: polygon(100% 40%, 0 0, 0 100%, 100% 60%);
+}
+.hero__pool {
+  position: absolute;
+  right: calc(100% - 300 / 1800 * 100%);
+  top: calc(840 / 1000 * 100%);
+  width: 85%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(225,236,255,.32), transparent);
+  filter: blur(6px);
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+.hero__shadow {
+  position: absolute;
+  left: 6%; right: 6%;
+  bottom: 9%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0,0,0,.9), rgba(0,0,0,0));
+  filter: blur(8px);
+}
+.hero__ground {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: calc(21vh + 1px);
+  height: 1px;
+  background-image: linear-gradient(90deg, var(--line) 50%, transparent 50%);
+  background-size: 14px 1px;
+  transform-origin: 0 50%;
+}
+/* Estelas de velocidad detrás del carro */
+.hero__streaks { position: absolute; left: 92%; top: 0; width: 60%; height: 100%; }
+.hero__streaks i {
+  position: absolute;
+  top: var(--y);
+  left: 0;
+  width: var(--w);
+  height: 1px;
+  background: linear-gradient(270deg, transparent, rgba(243,241,234,.6));
+  transform-origin: 0 50%;
+  opacity: 0;
+}
+
+.hero__bottom {
+  position: absolute;
+  left: var(--gutter);
+  right: calc(var(--gutter) + 24px);
+  bottom: var(--gutter);
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+}
+.hero__lead { font-size: clamp(18px, 1.7vw, 24px); line-height: 1.3; margin-bottom: 22px; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+/* Disponibilidad: una línea discreta, sin caja */
+.hero__card {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.hero__card span { color: var(--line); }
+.hero__card i {
+  position: relative;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+}
+.hero__card i::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: var(--accent);
+  animation: ping 2s var(--ease) infinite;
+}
+@keyframes ping { 0% { transform: scale(1); opacity: .7; } 80%, 100% { transform: scale(3); opacity: 0; } }
+
+.hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: var(--gutter);
+  z-index: 3;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .14em;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color .3s;
+}
+.hero__scroll:hover { color: var(--text); }
+.hero__scroll span { width: 1px; height: 46px; background: linear-gradient(var(--text), transparent); animation: drip 2.2s var(--ease) infinite; transform-origin: top; }
+@keyframes drip { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+/* Estado inicial (solo con JS): el carro espera fuera de cuadro y las letras ocultas */
+.js-motion .hero__car { visibility: hidden; }
+.js-motion .hero__title .char { transform: translateY(110%); }
+.step {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* diagonal editorial: título arriba a la izquierda, texto abajo a la derecha, carro al centro */
+  padding: clamp(96px, 14vh, 140px) calc(var(--gutter) + 24px) clamp(88px, 12vh, 120px) var(--gutter);
+}
+.color-name {
+  margin-top: 24px;
+  font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--text);
+}
+.color-name::before { content: "Color · "; color: var(--text-dim); }
+.js-motion .step:not([data-step="0"]) { opacity: 0; visibility: hidden; }
+
+/* ---------- Secciones genéricas ---------- */
+.contact { padding: clamp(96px, 16vh, 204px) var(--gutter); }
+@keyframes flash { from { color: var(--accent); transform: translateY(6px); opacity: 0; } to { opacity: 1; transform: none; } }
+
+/* ---------- Contacto ---------- */
+.contact { position: relative; overflow: hidden; }
+.contact { background: var(--black); }
+.contact::before { content: ""; position: absolute; inset: 0; z-index: 0; background: radial-gradient(60% 70% at 85% 50%, rgba(10,50,10,.7), transparent 70%), linear-gradient(90deg, var(--black) 30%, rgba(0,0,0,.7)); }
+.contact__inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 68px; padding-right: 24px; }
+
+.form { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 31px; align-content: start; }
+.field { display: flex; flex-direction: column; gap: 8px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.field > span, .field legend { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--text-dim); }
+.field input, .field select, .field textarea {
+  width: 100%;
+  padding: 8px 2px 10px;
+  border: 0;
+  border-bottom: 1px solid var(--text-dim);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font: 400 17px/1.4 var(--font);
+  transition: border-color .3s;
+  resize: vertical;
+}
+.field select option { background: var(--bg); }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-bottom-color: var(--accent); }
+.field input[aria-invalid="true"] { border-bottom-color: #e26d4c; }
+.field--radios, .field--full, .form .btn, .form__msg { grid-column: 1 / -1; }
+.field--radios { flex-direction: row; flex-wrap: wrap; gap: 10px; }
+.field--radios legend { width: 100%; margin-bottom: 10px; }
+.field--radios label { cursor: pointer; }
+.field--radios input { position: absolute; opacity: 0; pointer-events: none; }
+.field--radios span {
+  display: inline-block;
+  padding: 9px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em;
+  transition: border-color .3s, background .3s, color .3s;
+}
+.field--radios input:checked + span { border-color: var(--accent); background: var(--accent-soft); }
+.field--radios input:focus-visible + span { outline: 1px dashed var(--accent); outline-offset: 3px; }
+.form .btn { justify-self: start; min-width: 180px; }
+.form__msg { font-size: 13px; color: var(--text-dim); min-height: 1.4em; }
+
+/* ---------- Footer ---------- */
+/* ---------- Footer: copia exacta del footer de leapmotorcr.com (Elementor post-206) ---------- */
+.footer { background: #000; color: #fff; font-family: "Montserrat", sans-serif; }
+.footer a { color: inherit; text-decoration: none; }
+.footer__main { padding: 50px 64px 0; }
+.footer__bottom { padding: 80px 64px; }
+.footer__inner { display: flex; max-width: 1280px; margin: 0 auto; }
+.footer__info { width: 65%; padding-right: 50px; display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+.footer__logo { margin-top: 43px; }
+.footer__logo img { width: 317px; height: auto; }
+.footer__text { font-size: 14px; line-height: 1.5; text-shadow: 0 0 10px rgba(0,0,0,.3); }
+.footer__text p { margin-bottom: .9rem; }
+.footer__text strong, .footer__text b { font-weight: 700; }
+.footer__btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.footer__btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 24px;
+  border-radius: 100px;
+  background: #64a028;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.footer__btn svg { width: 1em; height: 1em; }
+.footer__social { display: flex; gap: 32px; }
+.footer__social a {
+  display: grid; place-items: center;
+  width: 50px; height: 50px; border-radius: 50%;
+  background: rgba(100, 160, 40, .2);
+}
+.footer__social svg { width: 25px; height: 25px; }
+.footer__aside { width: 35%; display: flex; flex-direction: column; gap: 20px; }
+.footer__menus { display: flex; gap: 20px; }
+.footer__menu a { white-space: nowrap; }
+.footer__menu { flex: 1; display: flex; flex-direction: column; }
+.footer__menu a { display: block; padding: 13px 0; font-size: 14px; font-weight: 600; line-height: 10px; }
+.footer__faco { display: flex; justify-content: center; padding-top: 100px; }
+.footer__faco img { width: 255px; height: auto; }
+.footer__copy { flex: 1 1 auto; padding-right: 50px; display: flex; flex-direction: column; justify-content: flex-end; font-size: 14px; }
+.footer__copy p { margin-bottom: .9rem; }
+.footer__legal { flex: none; display: flex; justify-content: flex-end; align-items: flex-end; }
+.footer__legal a { display: block; white-space: nowrap; padding: 13px 10px; font-size: 14px; line-height: 20px; text-decoration: underline; }
+.footer__legal a:hover { color: #64a028; }
+
+@media (max-width: 767px) {
+  .footer__main { padding: 64px 20px 0; }
+  .footer__inner { flex-wrap: wrap; }
+  .footer__info, .footer__aside { width: 100%; padding-right: 0; }
+  .footer__menus { padding-top: 20px; }
+  .footer__faco { padding-top: 60px; }
+  .footer__bottom { padding: 0 20px 40px; }
+  .footer__bottom .footer__inner { flex-direction: column-reverse; }
+  .footer__copy { width: 100%; padding: 20px 0 0; }
+  .footer__legal { width: 100%; flex-direction: column; align-items: flex-start; }
+  .footer__legal a { padding: 13px 0; }
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 860px) {
+
+  .hero__scroll { display: none; }
+  .hero__title { top: 18vh; font-size: 30vw; }
+  .hero__car { width: 100vw; left: 0; bottom: calc(34vh - 100vw * 0.0733); }
+  .hero__ground { bottom: calc(34vh + 1px); }
+  .hero__bottom { flex-direction: column; align-items: stretch; }
+  .step { display: flex; flex-direction: column; padding: 92px var(--gutter) 88px; }
+  .color-name { margin-top: 14px; }
+
+  .contact__inner { grid-template-columns: 1fr; gap: 24px; padding-right: 0; }
+  .form { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .hero__card { font-size: 10px; }
+}
+
+/* =========================================================
+   Movimiento reducido: sin pines ni scrubs
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll span { animation: none; }
+}
+html:not(.js-motion) .color-name { display: none; }
+html:not(.js-motion) .step { position: relative; padding-top: 56px; }
+
+/* =========================================================
+   Paleta aplicada por sección
+   ========================================================= */
+.eyebrow { color: var(--leaf); }
+.hero {
+  background:
+    radial-gradient(55% 45% at 50% 68%, rgba(10,50,10,.55), transparent 70%),
+    radial-gradient(80% 60% at 50% 100%, #0d1a0b, transparent 70%),
+    var(--bg);
+}
+.btn--solid:hover { background: var(--leaf); }
+
+/* Ficha técnica en crema, texto oscuro */
+/* Ficha técnica: fondo negro { --line: var(--brown); }
+
+/* =========================================================
+   Splash: foto de estudio fija que se oscurece (ref. leapmotor.net)
+   ========================================================= */
+.splash { position: relative; height: 260vh; background: var(--black); }
+.splash__sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.splash__img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 62%;
+  will-change: transform;
+}
+.splash__shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 30%),
+    linear-gradient(0deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 35%),
+    rgba(0,0,0,.45);
+  opacity: 0;
+}
+.splash__head {
+  position: absolute; left: var(--gutter); right: var(--gutter); top: clamp(96px, 14vh, 140px);
+  text-align: center;
+  font-size: clamp(18px, 1.9vw, 28px);
+  line-height: 1.35;
+  color: var(--white);
+}
+.splash__head strong { display: block; font-weight: 600; }
+.splash__head span { display: block; font-weight: 400; color: rgba(255,255,255,.85); }
+.splash__stats {
+  position: absolute; left: var(--gutter); right: calc(var(--gutter) + 24px); bottom: clamp(32px, 7vh, 72px);
+  margin: 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(5, 1fr);
+}
+.splash__stats li {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 4px 12px;
+  border-left: 1px solid rgba(255,255,255,.28);
+  text-align: center;
+}
+.splash__stats li:first-child { border-left: 0; }
+.splash__stats b { font-size: clamp(22px, 2.4vw, 36px); font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
+.splash__stats small {
+  font-size: 12px; color: rgba(255,255,255,.75);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.splash__stats small::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--dot); flex: none; }
+.js-motion .splash__head > *, .js-motion .splash__stats li { opacity: 0; }
+
+@media (max-width: 860px) {
+  .splash { height: 220vh; }
+  .splash__img { object-position: 47% 60%; }
+  .splash__stats { grid-template-columns: repeat(3, 1fr); row-gap: 22px; right: var(--gutter); }
+  .splash__stats li:nth-child(4) { border-left: 0; }
+  .splash__stats small { font-size: 10px; }
+}
+@media (max-width: 560px) {
+  .splash__stats { grid-template-columns: repeat(2, 1fr); }
+  .splash__stats li:nth-child(odd) { border-left: 0; }
+  .splash__stats li:nth-child(4) { border-left: 1px solid rgba(255,255,255,.28); }
+  .splash__stats li:last-child { grid-column: 1 / -1; }
+}
+
+/* =========================================================
+   Paleta completa: cada color con un papel propio
+   ========================================================= */
+
+/* Amarillo: autonomía y el dato clave del hero */
+.hero__card i, .hero__card i::after { background: var(--leaf); }
+
+/* Unidades de los números con su color (amarillo, verde claro, celeste { color: var(--sun); }
+.interior .eyebrow { color: var(--sky); }
+
+/* Marrón: la sección de espacio, cálida como la cabina, con detalles en crema y amarillo */
+/* Espacio: fondo negro { color: var(--cream); }
+
+.splash__head, .splash__stats { z-index: 3; }
+
+/* =========================================================
+   Estructura según leapmotor.net/es-es/modelos/b03x
+   ========================================================= */
+:root { --nav-h: 72px; --subnav-h: 56px; }
+
+/* Sub-navegación del modelo: queda fija bajo el header */
+.subnav {
+  position: sticky; top: var(--nav-h); z-index: 45;
+  height: var(--subnav-h);
+  background: rgba(0, 0, 0, .82);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+/* Lo pineado arranca debajo del header + subnav */
+.splash__head { top: calc(var(--nav-h) + var(--subnav-h) + 4vh); }
+.step { padding-top: calc(var(--nav-h) + var(--subnav-h) + 4vh); }
+[id] { scroll-margin-top: calc(var(--nav-h) + var(--subnav-h)); }
+
+/* Interior: acabados (3 opciones) */
+.interior { padding-top: 0 !important; }
+
+/* Tarjetas de espacio */
+.cards { padding-top: clamp(64px, 10vh, 120px) !important; }
+
+/* Preguntas frecuentes */
+.faq { display: grid; grid-template-columns: 1fr 1.6fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
+
+@media (max-width: 860px) {
+  .faq { grid-template-columns: 1fr; }
+}
+
