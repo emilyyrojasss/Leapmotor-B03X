@@ -9,6 +9,7 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const M = reduce ? 0 : 1; // multiplicador de desplazamientos: 0 = solo fundidos
   let lenis = null;
+  let colorPicker = null;
 
   initNav();
   initToggles();
@@ -52,6 +53,42 @@
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
+  /* ---------- Splash de entrada (ref. leapmotor.net): "B03X" recortado que crece y hace zoom ---------- */
+  const splashDone = new Promise((resolve) => {
+    const sp = $('#intro-splash');
+    if (!sp) return resolve();
+    const text = $('#splash-text', sp);
+    window.scrollTo(0, 0);
+    lenis?.stop();
+    document.documentElement.style.overflow = 'hidden';
+    const finish = () => {
+      sp.remove();
+      document.documentElement.style.overflow = '';
+      lenis?.start();
+      resolve();
+    };
+    const fit = () => text.setAttribute('font-size', Math.min(innerWidth * 0.26, innerHeight * 0.42));
+    fit();
+    if (reduce) { gsap.to(sp, { opacity: 0, duration: 0.6, delay: 0.8, onComplete: finish }); return; }
+
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+      fit();
+      // punto de zoom: sobre el trazo izquierdo del "0", así el recorte termina cubriendo toda la pantalla
+      let ox = innerWidth / 2, oy = (innerHeight - 72) / 2;
+      try {
+        const e = text.getExtentOfChar(1);
+        ox = e.x + e.width * 0.13; oy = e.y + e.height * 0.5;
+      } catch (_) {}
+      gsap.timeline({ onComplete: finish })
+        .from('.intro-splash__band', { yPercent: (i) => (i % 2 ? 100 : -100), duration: 0.9, ease: 'expo.out', stagger: { each: 0.05, from: 'center' } }, 0)
+        .fromTo(text, { opacity: 0, scale: 0.82, svgOrigin: `${innerWidth / 2} ${(innerHeight - 72) / 2}` },
+          { opacity: 1, scale: 1, duration: 1.8, ease: 'power2.out' }, 0.3)
+        .to(text, { scale: 70, svgOrigin: `${ox} ${oy}`, duration: 1.1, ease: 'power3.in' }, '+=0.1')
+        .to(sp, { opacity: 0, duration: 0.25 }, '-=0.2');
+    });
+    setTimeout(() => { if (document.body.contains(sp)) finish(); }, 7000);
+  });
+
   /* ---------- Hero: el B03X entra manejando y frena ---------- */
   initHero();
 
@@ -92,7 +129,7 @@
 
     // Estado inicial mientras cargan las imágenes
     gsap.set(chars, { y: 0, yPercent: 110 });
-    gsap.set(['.hero__eyebrow', '.hero__lead', '.hero__actions', '.hero__card', '.hero__scroll'], { opacity: 0, y: 24 });
+    gsap.set(['.hero__eyebrow', '.hero__lead', '.hero__actions', '.hero__seal', '.hero__scroll'], { opacity: 0, y: 24 });
 
     // Arrancar solo cuando el carro y la tipografía estén listos: evita el tirón del primer cuadro
     const imgs = $$('.hero__car img');
@@ -101,7 +138,7 @@
       ...imgs.map((i) => (i.decode ? i.decode().catch(() => {}) : null)),
     ]);
     const timeout = new Promise((r) => setTimeout(r, 2500));
-    Promise.race([ready, timeout]).then(() => requestAnimationFrame(play));
+    Promise.all([Promise.race([ready, timeout]), splashDone]).then(() => requestAnimationFrame(play));
 
     function play() {
       const T0 = 0.85;                                 // el carro aparece después de los faros
@@ -155,7 +192,7 @@
         .fromTo('.hero__sheen i', { xPercent: -110 }, { xPercent: 360, duration: 1.5, ease: 'power2.inOut' }, T0 + DRIVE - 0.3)
         .set('.hero__sheen', { opacity: 0 })
         // 6. Interfaz
-        .to(['.hero__eyebrow', '.hero__lead', '.hero__actions', '.hero__card', '.hero__scroll'],
+        .to(['.hero__eyebrow', '.hero__lead', '.hero__actions', '.hero__seal', '.hero__scroll'],
           { opacity: 1, y: 0, duration: 1.1, stagger: 0.07, ease: 'expo.out' }, T0 + DRIVE - 0.6);
 
       // Las letras suben justo cuando la trompa pasa frente a cada una
@@ -189,23 +226,92 @@
 
   /* ---------- Historias: imagen fija mientras el texto pasa de tenue a blanco ---------- */
   const BARS = 136; // header (72) + sub-navegación (64)
+  const shade0 = (st) => ($('.m-story__shade', st) ? 0 : 0.3);
   $$('.m-story').forEach((st) => {
     const text = $('.m-story__text', st);
     const img = $('.m-story__img', st);
     const car = $('.m-story__car', st);
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
-      scrollTrigger: { trigger: st, start: `top ${BARS}px`, end: 'bottom bottom', scrub: reduce ? true : 0.6 },
+      scrollTrigger: { trigger: st, start: `top ${BARS}px`, end: 'bottom bottom', scrub: reduce ? true : 0.6, invalidateOnRefresh: true },
     });
-    tl.fromTo(text, { opacity: 0.3, y: 30 * M }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, 0)
+    tl.fromTo(text, { opacity: shade0(st), y: 30 * M }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, 0)
       .to({}, { duration: 0.55 }, 0.45);
     if (img) tl.fromTo(img, { scale: 1 + 0.08 * M }, { scale: 1, duration: 1 }, 0);
-    // el carro visto desde arriba cruza la pantalla de izquierda a derecha
+    // fondo que se oscurece mientras aparece el texto
+    const shade = $('.m-story__shade', st);
+    if (shade) tl.fromTo(shade, { opacity: 0 }, { opacity: 0.55, duration: 0.45, ease: 'power1.out' }, 0);
+    // el carro visto desde arriba entra por la izquierda, pasa por encima del texto
+    // y sale completo por la derecha en línea recta; recién entonces sigue el scroll
     if (car) {
-      gsap.set(car, { yPercent: -50 });
-      tl.fromTo(car, { xPercent: -95 * M - 30 * (1 - M) }, { xPercent: 20, duration: 1, ease: 'power1.inOut' }, 0);
+      gsap.set(car, { xPercent: 0, yPercent: -50 });
+      tl.fromTo(car, { x: () => -car.offsetWidth - 40 }, { x: () => innerWidth + 40, duration: 0.9, ease: 'none' }, 0.05);
     }
   });
+
+  /* ---------- Colores: el scroll recorre los 6 colores y luego sigue ---------- */
+  if (colorPicker) {
+    const N = $$('.m-colors__car').length;
+    const st = ScrollTrigger.create({
+      trigger: '.m-colors', start: `top ${BARS}px`, end: 'bottom bottom',
+      onUpdate: (self) => {
+        const i = Math.min(N - 1, Math.floor(self.progress * N));
+        if (i !== colorPicker.cur) colorPicker.go(i);
+      },
+    });
+    colorPicker.navigate = (i) => scrollTo(st.start + (st.end - st.start) * ((i + 0.5) / N));
+  }
+
+  /* ---------- Acabados interiores: el scroll pasa las 3 fotos y luego sigue ---------- */
+  const trimImgs = $$('.m-trims__img');
+  if (trimImgs.length) {
+    let curTrim = 0;
+    ScrollTrigger.create({
+      trigger: '.m-trims', start: `top ${BARS}px`, end: 'bottom bottom',
+      onUpdate: (self) => {
+        const i = Math.min(trimImgs.length - 1, Math.floor(self.progress * trimImgs.length));
+        if (i === curTrim) return;
+        curTrim = i;
+        trimImgs.forEach((im, k) => im.classList.toggle('is-active', k === i));
+      },
+    });
+  }
+
+  /* ---------- Más espacio: los asientos se abaten y el maletero crece ---------- */
+  const seatFrames = $$('.m-space__frames img');
+  const litersEl = $('#liters');
+  if (seatFrames.length && litersEl) {
+    const L0 = 405, L1 = 1358;
+    const fmtL = (v) => String(Math.round(v)).replace(/\B(?=(\d{3})+$)/, '.');
+    const spaceTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.m-space', start: `top ${BARS}px`, end: 'bottom bottom', scrub: reduce ? true : 0.6,
+        onUpdate: (self) => {
+          const p = gsap.utils.clamp(0, 1, (self.progress - 0.08) / 0.82);
+          litersEl.textContent = fmtL(L0 + (L1 - L0) * p);
+          gsap.set('#liters-bar', { scaleX: p });
+        },
+      },
+    });
+    seatFrames.slice(1).forEach((img, i) => {
+      spaceTl.fromTo(img, { opacity: 0, scale: 1 + 0.03 * M }, { opacity: 1, scale: 1, duration: 1, ease: 'power1.inOut' }, i * 1.2 + 0.3);
+    });
+    spaceTl.to({}, { duration: 0.5 });
+  }
+
+  /* ---------- Tecnología: scroll horizontal fijo; al llegar a la última tarjeta sigue la página ---------- */
+  const techTrack = $('.m-carousel--scroll .m-carousel__track');
+  if (techTrack) {
+    const dist = () => Math.max(0, techTrack.scrollWidth - techTrack.parentElement.clientWidth);
+    gsap.to(techTrack, {
+      x: () => -dist(), ease: 'none',
+      scrollTrigger: {
+        trigger: '.m-tech', start: `top ${BARS}px`, end: () => '+=' + dist() * 1.2,
+        pin: true, scrub: reduce ? true : 0.7, invalidateOnRefresh: true, anticipatePin: 1,
+        onUpdate: (self) => gsap.set('#tech-bar', { scaleX: self.progress }),
+      },
+    });
+  }
 
   /* ---------- Sub-navegación: sección activa ---------- */
   const subLinks = $$('.m-subnav__links a').map((a) => [a, $(a.getAttribute('href'))]).filter(([, sec]) => sec);
@@ -244,31 +350,103 @@
 
   function initToggles() {
     // Selectores con puntos y flechas: colores del carro y acabados interiores
-    const setupPicker = (picker, images, nameEl) => {
-      if (!picker) return;
+    const setupPicker = (picker, images, nameEl, countEl) => {
+      if (!picker) return null;
       const dots = $$('.m-dot', picker);
-      let cur = 0;
-      const go = (i) => {
-        cur = (i + dots.length) % dots.length;
+      const api = { cur: 0, navigate: null };
+      api.go = (i) => {
+        const cur = api.cur = (i + dots.length) % dots.length;
         dots.forEach((d, k) => { d.classList.toggle('is-active', k === cur); d.setAttribute('aria-checked', k === cur); });
         images.forEach((im, k) => im.classList.toggle('is-active', k === cur));
         nameEl.textContent = dots[cur].dataset.name;
+        if (countEl) countEl.textContent = cur + 1;
       };
-      dots.forEach((d, k) => d.addEventListener('click', () => go(k)));
-      $$('.m-picker__arrow', picker).forEach((a) => a.addEventListener('click', () => go(cur + Number(a.dataset.dir))));
+      // si hay un recorrido con scroll, los clics llevan el scroll a ese color
+      const pick = (i) => (api.navigate ? api.navigate(i) : api.go(i));
+      dots.forEach((d, k) => d.addEventListener('click', () => pick(k)));
+      $$('.m-picker__arrow', picker).forEach((a) => a.addEventListener('click', () => {
+        const i = api.cur + Number(a.dataset.dir);
+        pick(api.navigate ? Math.max(0, Math.min(dots.length - 1, i)) : i);
+      }));
+      return api;
     };
-    setupPicker($('[data-picker="colors"]'), $$('.m-colors__car'), $('#color-name'));
-    setupPicker($('[data-picker="trims"]'), $$('.m-trims__img'), $('#trim-name'));
+    colorPicker = setupPicker($('[data-picker="colors"]'), $$('.m-colors__car'), $('#color-name'), $('#color-count'));
 
-    // Puntos interactivos sobre el carro
+    // Puntos interactivos sobre el carro: tarjeta con foto y descripción (como leapmotor.net)
     const hots = $$('.m-hot');
-    hots.forEach((h) => h.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const open = h.getAttribute('aria-expanded') !== 'true';
-      hots.forEach((o) => o.setAttribute('aria-expanded', 'false'));
-      h.setAttribute('aria-expanded', String(open));
-    }));
-    document.addEventListener('click', () => hots.forEach((o) => o.setAttribute('aria-expanded', 'false')));
+    const card = $('#hotcard');
+    const scrim = $('#hot-scrim');
+    if (card && hots.length) {
+      const img = $('.m-hotcard__media img', card);
+      const title = $('h3', card);
+      const text = $('p', card);
+      const count = $('.m-hotcard__count', card);
+      let cur = -1;
+      let openedAt = 0;
+
+      // la tarjeta se abre del lado contrario al punto, para no taparlo
+      const place = (h) => {
+        const x = parseFloat(h.style.getPropertyValue('--x'));
+        if (x < 50) { card.style.left = `calc(${x}% + 48px)`; card.style.right = 'auto'; }
+        else { card.style.right = `calc(${100 - x}% + 48px)`; card.style.left = 'auto'; }
+      };
+      const show = (i) => {
+        cur = (i + hots.length) % hots.length;
+        const h = hots[cur];
+        hots.forEach((o) => { o.classList.toggle('is-active', o === h); o.setAttribute('aria-expanded', String(o === h)); });
+        img.style.opacity = 0;
+        const next = new Image();
+        next.onload = () => { img.src = h.dataset.img; img.alt = h.dataset.title; img.style.opacity = 1; };
+        next.src = h.dataset.img;
+        title.textContent = h.dataset.title;
+        card.style.setProperty('--hc', h.style.getPropertyValue('--hc'));
+        text.textContent = h.dataset.text;
+        count.textContent = `${cur + 1} / ${hots.length}`;
+        place(h);
+        if (card.hidden) {
+          card.hidden = false; scrim.hidden = false;
+          requestAnimationFrame(() => { card.classList.add('is-on'); scrim.classList.add('is-on'); });
+          openedAt = scrollY;
+        }
+      };
+      const hide = () => {
+        if (card.hidden) return;
+        const last = hots[cur];
+        card.classList.remove('is-on'); scrim.classList.remove('is-on');
+        hots.forEach((o) => { o.classList.remove('is-active'); o.setAttribute('aria-expanded', 'false'); });
+        setTimeout(() => { card.hidden = true; scrim.hidden = true; }, 300);
+        cur = -1;
+      };
+
+      // con mouse: se abre al pasar el cursor; en pantallas táctiles, al tocar
+      const canHover = matchMedia('(hover: hover)').matches;
+      const stage = $('.m-first__stage');
+      let leaveTimer;
+      hots.forEach((h, i) => {
+        h.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (cur === i && !canHover) hide(); else show(i);
+        });
+        if (canHover) h.addEventListener('mouseenter', () => { clearTimeout(leaveTimer); if (cur !== i) show(i); });
+        h.addEventListener('focus', () => { if (cur !== i) show(i); });
+      });
+      if (canHover) {
+        stage.addEventListener('mouseleave', () => { leaveTimer = setTimeout(hide, 250); });
+        stage.addEventListener('mouseenter', () => clearTimeout(leaveTimer));
+      }
+      $$('.m-hotcard__arrow', card).forEach((a) => a.addEventListener('click', (e) => { e.stopPropagation(); show(cur + Number(a.dataset.dir)); }));
+      $('.m-hotcard__close', card).addEventListener('click', hide);
+      card.addEventListener('click', (e) => e.stopPropagation());
+      scrim.addEventListener('click', hide);
+      document.addEventListener('click', hide);
+      addEventListener('keydown', (e) => {
+        if (cur < 0) return;
+        if (e.key === 'Escape') hide();
+        if (e.key === 'ArrowRight') show(cur + 1);
+        if (e.key === 'ArrowLeft') show(cur - 1);
+      });
+      addEventListener('scroll', () => { if (cur >= 0 && Math.abs(scrollY - openedAt) > 220) hide(); }, { passive: true });
+    }
 
     // Carruseles de tarjetas: puntos y flechas
     $$('[data-carousel]').forEach((c) => {

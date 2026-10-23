@@ -703,3 +703,6 @@ html:not(.js-motion) .step { position: relative; padding-top: 56px; }
   .faq { grid-template-columns: 1fr; }
 }
 
+
+/* Modelo actual en el header y el footer */
+.nav__links a[aria-current="page"], .footer__menu a[aria-current="page"] { color: #64a028; }

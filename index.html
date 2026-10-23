@@ -14,9 +14,31 @@
   <link rel="preload" as="image" href="assets/car/colors/side-tundra.webp">
   <link rel="preload" as="image" href="assets/car/side-tundra-blur.webp">
   <link rel="stylesheet" href="css/styles.css?v=5">
-  <link rel="stylesheet" href="css/model.css?v=2">
+  <link rel="stylesheet" href="css/model.css?v=28">
 </head>
 <body>
+
+  <!-- ============ SPLASH DE ENTRADA (ref. leapmotor.net): fondo sólido con "B03X" recortado ============ -->
+  <div class="intro-splash" id="intro-splash" aria-hidden="true">
+    <svg class="intro-splash__svg" width="100%" height="100%">
+      <defs>
+        <mask id="splash-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
+          <rect width="100%" height="100%" fill="#fff"/>
+          <text id="splash-text" x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#000">B03X</text>
+        </mask>
+      </defs>
+      <g mask="url(#splash-mask)">
+        <rect class="intro-splash__band" x="0.0%" width="12.6%" height="100%" style="fill:var(--p-forest)"/>
+        <rect class="intro-splash__band" x="12.5%" width="12.6%" height="100%" style="fill:var(--p-sky)"/>
+        <rect class="intro-splash__band" x="25.0%" width="12.6%" height="100%" style="fill:var(--p-sun)"/>
+        <rect class="intro-splash__band" x="37.5%" width="12.6%" height="100%" style="fill:var(--p-cream)"/>
+        <rect class="intro-splash__band" x="50.0%" width="12.6%" height="100%" style="fill:var(--p-leaf)"/>
+        <rect class="intro-splash__band" x="62.5%" width="12.6%" height="100%" style="fill:var(--p-pink)"/>
+        <rect class="intro-splash__band" x="75.0%" width="12.6%" height="100%" style="fill:var(--p-green)"/>
+        <rect class="intro-splash__band" x="87.5%" width="12.6%" height="100%" style="fill:var(--p-brown)"/>
+      </g>
+    </svg>
+  </div>
 
   <!-- ============ NAV ============ -->
   <header class="nav" id="nav">
@@ -25,6 +47,7 @@
       <span class="nav__spacer-a" aria-hidden="true"></span>
       <nav class="nav__links" id="nav-links" aria-label="Menú principal">
         <div class="nav__models">
+          <a href="#intro" aria-current="page">B03X</a>
           <a href="https://leapmotorcr.com/b10ev/">B10EV</a>
           <a href="https://leapmotorcr.com/c10ev/">C10EV</a>
           <a href="https://leapmotorcr.com/c10-reev/">C10 REEV</a>
@@ -97,13 +120,13 @@
 
       <div class="hero__bottom">
         <div class="hero__content">
-          <p class="hero__lead">Pequeño por fuera.<br>Enorme en todo lo demás.</p>
+          <p class="hero__lead">Pequeño por fuera.<br><strong>Enorme en todo lo demás.</strong></p>
           <div class="hero__actions">
-            <a href="#contacto" class="btn btn--solid">Agendar test drive</a>
-            <a href="#exterior" class="btn btn--ghost">Descubrirlo</a>
+            <a href="#contacto" class="m-btn m-btn--white">Solicitar una prueba de manejo</a>
+            <a href="#exterior" class="m-btn m-btn--outline">Descubrilo</a>
           </div>
         </div>
-        <p class="hero__card"><i aria-hidden="true"></i>Disponible en Costa Rica <span>·</span> Respaldo FACO</p>
+        <img class="hero__seal" src="assets/brand/faco-respaldo.png" width="255" height="150" alt="Respaldo FACO, Franz Amrhein &amp; Co., S.A., desde 1951">
       </div>
 
       <a href="#splash" class="hero__scroll"><span aria-hidden="true"></span>Explora B03X</a>
@@ -121,7 +144,6 @@
           <p class="m-intro__price">Disponible en Costa Rica</p>
           <p class="m-intro__note">Consultá precio y versiones con un asesor de FACO.</p>
         </div>
-        <a href="#contacto" class="m-link m-intro__link">Solicitá una prueba de manejo <span aria-hidden="true">→</span></a>
       </div>
     </section>
 
@@ -152,11 +174,11 @@
           <span>B03X: compacto, ágil y sorprendentemente espacioso.</span>
         </p>
         <ul class="splash__stats">
-          <li><b>Hasta <span data-splash-count="401">401</span> km</b><small>Autonomía total WLTP</small></li>
-          <li><b><span data-splash-count="16">16</span> min</b><small>Tiempo de carga en corriente continua</small></li>
+          <li><b><span data-splash-count="401">401</span><em>km</em></b><small>Autonomía WLTP (hasta)</small></li>
+          <li><b><span data-splash-count="16">16</span><em>min</em></b><small>Carga rápida 30–80%</small></li>
           <li><b><span data-splash-count="33">33</span></b><small>Espacios de almacenamiento</small></li>
-          <li><b><span data-splash-count="4.27" data-decimals="2">4,27</span> m</b><small>Longitud</small></li>
-          <li><b><span data-splash-count="510">510</span> l</b><small>Capacidad del maletero</small></li>
+          <li><b><span data-splash-count="4.27" data-decimals="2">4,27</span><em>m</em></b><small>Longitud</small></li>
+          <li><b><span data-splash-count="510">510</span><em>l</em></b><small>Capacidad del maletero</small></li>
         </ul>
       </div>
     </section>
@@ -168,7 +190,7 @@
       </div>
     </section>
 
-    <section class="m-story m-story--tr" aria-label="Movete con facilidad">
+    <section class="m-story m-story--tr" style="--tone:var(--p-sun)" aria-label="Movete con facilidad">
       <div class="m-story__sticky">
         <img class="m-story__img" src="assets/img/m/s-muevete-sm.webp" srcset="assets/img/m/s-muevete-sm.webp 1100w, assets/img/m/s-muevete.webp 2178w" sizes="100vw" style="object-position:50% 45%" alt="Frontal del B03X con faro LED y logo de Leapmotor" loading="lazy" decoding="async">
         <div class="m-story__text">
@@ -178,7 +200,7 @@
       </div>
     </section>
 
-    <section class="m-story m-story--bl" aria-label="Encontrá tu equilibrio">
+    <section class="m-story m-story--bl" style="--tone:var(--p-leaf)" aria-label="Encontrá tu equilibrio">
       <div class="m-story__sticky">
         <img class="m-story__img" src="assets/img/m/s-equilibrio-sm.webp" srcset="assets/img/m/s-equilibrio-sm.webp 1100w, assets/img/m/s-equilibrio.webp 2400w" sizes="100vw" style="object-position:55% 50%" alt="Mujer jugando con pelotas de tenis junto al B03X" loading="lazy" decoding="async">
         <div class="m-story__text">
@@ -188,7 +210,7 @@
       </div>
     </section>
 
-    <section class="m-story m-story--drive m-story--mr" aria-label="Entrá con naturalidad">
+    <section class="m-story m-story--drive m-story--mr" style="--tone:var(--p-sky)" aria-label="Entrá con naturalidad">
       <div class="m-story__sticky">
         <img class="m-story__car" src="assets/img/m/s-top.webp" srcset="assets/img/m/s-top-sm.webp 900w, assets/img/m/s-top.webp 1800w" sizes="70vw" alt="B03X visto desde arriba" loading="lazy" decoding="async">
         <div class="m-story__text">
@@ -198,7 +220,7 @@
       </div>
     </section>
 
-    <section class="m-story m-story--tl" aria-label="Dejá huella">
+    <section class="m-story m-story--tl" style="--tone:var(--p-pink)" aria-label="Dejá huella">
       <div class="m-story__sticky">
         <img class="m-story__img" src="assets/img/m/s-huella-sm.webp" srcset="assets/img/m/s-huella-sm.webp 1100w, assets/img/m/s-huella.webp 2400w" sizes="100vw" style="object-position:50% 60%" alt="Vista trasera del B03X en estudio" loading="lazy" decoding="async">
         <div class="m-story__text">
@@ -210,27 +232,30 @@
 
     <!-- ============ COLORES ============ -->
     <section class="m-colors" aria-label="Colores">
-      <p class="m-colors__name" id="color-name" aria-live="polite">Gris Tundra</p>
-      <div class="m-colors__stage">
-        <img class="m-colors__car is-active" data-color="0" src="assets/car/colors/side-tundra.webp" alt="B03X Gris Tundra" loading="lazy">
-        <img class="m-colors__car" data-color="1" src="assets/car/colors/side-bellota.webp" alt="B03X Marrón Bellota" loading="lazy">
-        <img class="m-colors__car" data-color="2" src="assets/car/colors/side-arandano.webp" alt="B03X Azul Arándano" loading="lazy">
-        <img class="m-colors__car" data-color="3" src="assets/car/colors/side-alga.webp" alt="B03X Verde Alga" loading="lazy">
-        <img class="m-colors__car" data-color="4" src="assets/car/colors/side-plata.webp" alt="B03X Plata Estelar" loading="lazy">
-        <img class="m-colors__car" data-color="5" src="assets/car/colors/side-escarcha.webp" alt="B03X Beige Escarcha" loading="lazy">
-      </div>
-      <p class="m-colors__label">Elegí tu estilo</p>
-      <div class="m-picker" data-picker="colors">
-        <button class="m-picker__arrow" data-dir="-1" aria-label="Color anterior">←</button>
-        <div class="m-picker__dots" role="radiogroup" aria-label="Color del vehículo">
-          <button class="m-dot is-active" role="radio" aria-checked="true" aria-label="Gris Tundra" data-name="Gris Tundra" style="--c:#b9b9b9"></button>
-          <button class="m-dot" role="radio" aria-checked="false" aria-label="Marrón Bellota" data-name="Marrón Bellota" style="--c:#684d3e"></button>
-          <button class="m-dot" role="radio" aria-checked="false" aria-label="Azul Arándano" data-name="Azul Arándano" style="--c:#262d5e"></button>
-          <button class="m-dot" role="radio" aria-checked="false" aria-label="Verde Alga" data-name="Verde Alga" style="--c:#2b4428"></button>
-          <button class="m-dot" role="radio" aria-checked="false" aria-label="Plata Estelar" data-name="Plata Estelar" style="--c:#d5dbe2"></button>
-          <button class="m-dot" role="radio" aria-checked="false" aria-label="Beige Escarcha" data-name="Beige Escarcha" style="--c:#cfcdbd"></button>
+      <div class="m-colors__sticky">
+        <p class="m-colors__name" id="color-name" aria-live="polite">Gris Tundra</p>
+        <div class="m-colors__stage">
+          <img class="m-colors__car is-active" data-color="0" src="assets/car/colors/side-tundra.webp" alt="B03X Gris Tundra" loading="lazy">
+          <img class="m-colors__car" data-color="1" src="assets/car/colors/side-bellota.webp" alt="B03X Marrón Bellota" loading="lazy">
+          <img class="m-colors__car" data-color="2" src="assets/car/colors/side-arandano.webp" alt="B03X Azul Arándano" loading="lazy">
+          <img class="m-colors__car" data-color="3" src="assets/car/colors/side-alga.webp" alt="B03X Verde Alga" loading="lazy">
+          <img class="m-colors__car" data-color="4" src="assets/car/colors/side-plata.webp" alt="B03X Plata Estelar" loading="lazy">
+          <img class="m-colors__car" data-color="5" src="assets/car/colors/side-escarcha.webp" alt="B03X Beige Escarcha" loading="lazy">
         </div>
-        <button class="m-picker__arrow" data-dir="1" aria-label="Color siguiente">→</button>
+        <p class="m-colors__label">Elegí tu estilo</p>
+        <div class="m-picker" data-picker="colors">
+          <button class="m-picker__arrow" data-dir="-1" aria-label="Color anterior">←</button>
+          <div class="m-picker__dots" role="radiogroup" aria-label="Color del vehículo">
+            <button class="m-dot is-active" role="radio" aria-checked="true" aria-label="Gris Tundra" data-name="Gris Tundra" style="--c:#b9b9b9"></button>
+            <button class="m-dot" role="radio" aria-checked="false" aria-label="Marrón Bellota" data-name="Marrón Bellota" style="--c:#684d3e"></button>
+            <button class="m-dot" role="radio" aria-checked="false" aria-label="Azul Arándano" data-name="Azul Arándano" style="--c:#262d5e"></button>
+            <button class="m-dot" role="radio" aria-checked="false" aria-label="Verde Alga" data-name="Verde Alga" style="--c:#2b4428"></button>
+            <button class="m-dot" role="radio" aria-checked="false" aria-label="Plata Estelar" data-name="Plata Estelar" style="--c:#d5dbe2"></button>
+            <button class="m-dot" role="radio" aria-checked="false" aria-label="Beige Escarcha" data-name="Beige Escarcha" style="--c:#cfcdbd"></button>
+          </div>
+          <button class="m-picker__arrow" data-dir="1" aria-label="Color siguiente">→</button>
+        </div>
+        <p class="m-colors__count" aria-hidden="true"><span id="color-count">1</span> / 6</p>
       </div>
     </section>
 
@@ -241,17 +266,32 @@
         <p class="m-sub">Cada detalle combina forma y función: una presencia expresiva y, al mismo tiempo, decidida.</p>
       </div>
       <div class="m-first__stage">
-        <img class="m-first__car" src="assets/car/car-34.webp" alt="B03X Marrón Bellota visto de tres cuartos" loading="lazy">
-        <button class="m-hot" style="--x:33%;--y:59%" aria-expanded="false" aria-label="Faros LED"><span class="m-hot__pop"><b>Faros LED efecto sonrisa</b>Firma lumínica horizontal con encendido automático.</span></button>
-        <button class="m-hot" style="--x:58%;--y:19%" aria-expanded="false" aria-label="Barras de techo"><span class="m-hot__pop"><b>Barras de techo</b>Integradas en un techo en contraste que estiliza la silueta.</span></button>
-        <button class="m-hot" style="--x:79%;--y:23%" aria-expanded="false" aria-label="Alerón trasero"><span class="m-hot__pop"><b>Perfil aerodinámico</b>Un alerón trasero que mejora la estabilidad y la eficiencia.</span></button>
-        <button class="m-hot" style="--x:86%;--y:38%" aria-expanded="false" aria-label="Luces traseras"><span class="m-hot__pop"><b>Luces traseras LED</b>Un diseño tridimensional que deja huella también de noche.</span></button>
-        <button class="m-hot" style="--x:65%;--y:50%" aria-expanded="false" aria-label="Tiradores de puerta"><span class="m-hot__pop"><b>Tiradores semiocultos</b>Se integran en la carrocería para una línea limpia y eficiente.</span></button>
+        <img class="m-first__car" src="assets/img/m/first-car.webp" alt="B03X Marrón Bellota visto de tres cuartos" loading="lazy">
+        <button class="m-hot" style="--hc:#f7dc54;--x:17%;--y:55%" data-img="assets/img/m/h-faro.webp" data-title="Firma luminosa LED Smile" data-text="Una barra de luces LED de tres segmentos traza una sutil «sonrisa» en el frontal, dando al B03X una presencia amable y moderna que reconocés de un vistazo." aria-label="Firma luminosa LED Smile" aria-haspopup="dialog"><span class="m-hot__label">Firma luminosa LED Smile</span></button>
+        <button class="m-hot" style="--hc:#a5d273;--x:57%;--y:18%" data-img="assets/img/m/h-techo.webp" data-title="Diseño de techo flotante" data-text="El techo, visualmente independiente, crea una silueta más ligera y dinámica. Diseñado para destacar desde cualquier ángulo." aria-label="Diseño de techo flotante" aria-haspopup="dialog"><span class="m-hot__label">Diseño de techo flotante</span></button>
+        <button class="m-hot" style="--hc:#9acff7;--x:66%;--y:50%" data-img="assets/img/m/h-tirador.webp" data-title="Tiradores de puertas ocultos" data-text="Integrados a la perfección en la carrocería, los tiradores escamoteables mantienen un perfil limpio y fluido, y solo aparecen cuando los necesitás." aria-label="Tiradores de puertas ocultos" aria-haspopup="dialog"><span class="m-hot__label">Tiradores de puertas ocultos</span></button>
+        <button class="m-hot" style="--hc:#e862c8;--x:81%;--y:27%" data-img="assets/img/m/h-lateral.webp" data-title="Detalles laterales en negro brillante" data-text="Un acabado negro refinado define el perfil lateral, aportando contraste y un toque de sofisticación al conjunto del diseño." aria-label="Detalles laterales en negro brillante" aria-haspopup="dialog"><span class="m-hot__label">Detalles laterales en negro brillante</span></button>
+        <button class="m-hot" style="--hc:#64a028;--x:86%;--y:38%" data-img="assets/img/m/h-trasera.webp" data-title="Faros traseros expresivos" data-text="En la parte trasera, los elementos LED curvos repiten la sonrisa del frontal y crean una firma distintiva. Un spoiler elegante mejora el rendimiento aerodinámico." aria-label="Faros traseros expresivos" aria-haspopup="dialog"><span class="m-hot__label">Faros traseros expresivos</span></button>
+        <aside class="m-hotcard" id="hotcard" role="dialog" aria-modal="false" aria-labelledby="hotcard-title" hidden>
+          <button class="m-hotcard__close" type="button" aria-label="Cerrar">×</button>
+          <div class="m-hotcard__media"><img src="" alt=""></div>
+          <div class="m-hotcard__body">
+            <h3 id="hotcard-title"></h3>
+            <p></p>
+            <div class="m-hotcard__nav">
+              <button class="m-hotcard__arrow" data-dir="-1" type="button" aria-label="Detalle anterior">←</button>
+              <span class="m-hotcard__count"></span>
+              <button class="m-hotcard__arrow" data-dir="1" type="button" aria-label="Detalle siguiente">→</button>
+            </div>
+          </div>
+        </aside>
       </div>
+      <p class="m-first__hint">Pasá el cursor sobre los puntos para descubrir cada detalle</p>
+      <div class="m-scrim" id="hot-scrim" hidden></div>
     </section>
 
     <!-- ============ INTERIOR ============ -->
-    <section class="m-story m-story--bl m-story--dark" id="interior" aria-label="Espacio, confort y estilo">
+    <section class="m-story m-story--bl m-story--dark" id="interior" style="--tone:var(--p-cream)" aria-label="Espacio, confort y estilo">
       <div class="m-story__sticky">
         <img class="m-story__img" src="assets/img/m/i-trunk-sm.webp" srcset="assets/img/m/i-trunk-sm.webp 1100w, assets/img/m/i-trunk.webp 2400w" sizes="100vw" style="object-position:50% 40%" alt="Mujer cargando el maletero del B03X junto a un lago" loading="lazy" decoding="async">
         <div class="m-story__text">
@@ -260,11 +300,12 @@
       </div>
     </section>
 
-    <section class="m-story m-story--center m-story--dim" aria-label="Listo para lo que venga">
+    <section class="m-story m-story--decision" style="--tone:var(--p-sun)" aria-label="Leapmotor, mi decisión">
       <div class="m-story__sticky">
         <img class="m-story__img" src="assets/img/m/i-tenis-sm.webp" srcset="assets/img/m/i-tenis-sm.webp 1100w, assets/img/m/i-tenis.webp 2400w" sizes="100vw" style="object-position:45% 50%" alt="Mujer apoyada en el B03X en una cancha de tenis" loading="lazy" decoding="async">
+        <div class="m-story__shade" aria-hidden="true"></div>
         <div class="m-story__text">
-          <h2>Listo para lo que venga.</h2>
+          <h2>Leapmotor, <strong>mi decisión.</strong></h2>
         </div>
       </div>
     </section>
@@ -273,77 +314,52 @@
       <div class="m-wrap">
         <h2 class="m-h2">Un espacio que se adelanta al futuro.</h2>
         <p class="m-sub">Un habitáculo amplio y centrado en las personas, moldeado por un<br class="m-hide-sm"> minimalismo inteligente: todo pensado para relajar.</p>
-        <div class="m-carousel" data-carousel>
-          <div class="m-carousel__track">
-            <article class="m-card">
-              <img src="assets/img/m/i-tacto-sm.webp" alt="Panel de puerta acolchado" loading="lazy">
-              <div class="m-card__text"><h3>Comodidad<br>de tacto suave</h3><p>Los paneles acolchados de las puertas crean una sensación más cálida y refinada: confort que notás en cada contacto.</p></div>
-            </article>
-            <article class="m-card">
-              <img src="assets/img/m/i-cuadro-sm.webp" alt="Volante y cuadro de instrumentos digital" loading="lazy">
-              <div class="m-card__text"><h3>Cuadro de instrumentos digital de 8,8"</h3><p>Información esencial de conducción, siempre clara y fácil de leer.</p></div>
-            </article>
-            <article class="m-card">
-              <img src="assets/img/m/i-pantalla-sm.webp" alt="Mano tocando la pantalla central" loading="lazy">
-              <div class="m-card__text"><h3>Pantalla central<br>HD de 14,6"</h3><p>Una gran pantalla flotante con resolución 2.5K reúne navegación, multimedia y controles en una experiencia fluida.</p></div>
-            </article>
-            <article class="m-card">
-              <img src="assets/img/m/i-materiales-sm.webp" alt="Vista superior del habitáculo" loading="lazy">
-              <div class="m-card__text"><h3>Materiales interiores certificados</h3><p>Los tejidos conformes con OEKO-TEX® garantizan bajas emisiones y un entorno más saludable en el habitáculo.</p></div>
-            </article>
-          </div>
-          <div class="m-carousel__nav">
-            <div class="m-carousel__dots"></div>
-            <div class="m-carousel__arrows">
-              <button class="m-arrow" data-dir="-1" aria-label="Anterior">←</button>
-              <button class="m-arrow" data-dir="1" aria-label="Siguiente">→</button>
-            </div>
-          </div>
+        <div class="m-cabin__grid">
+          <article class="m-card m-card--simple" style="--tone:var(--p-sun)">
+            <img src="assets/img/m/i-tacto-sm.webp" alt="Panel de puerta acolchado" loading="lazy">
+            <div class="m-card__text"><h3>Tacto suave</h3><p>Paneles acolchados en las puertas.</p></div>
+          </article>
+          <article class="m-card m-card--simple" style="--tone:var(--p-sky)">
+            <img src="assets/img/m/i-cuadro-sm.webp" alt="Volante y cuadro de instrumentos digital" loading="lazy">
+            <div class="m-card__text"><h3>Cuadro digital 8,8"</h3><p>Información clara de un vistazo.</p></div>
+          </article>
+          <article class="m-card m-card--simple" style="--tone:var(--p-pink)">
+            <img src="assets/img/m/i-pantalla-sm.webp" alt="Mano tocando la pantalla central" loading="lazy">
+            <div class="m-card__text"><h3>Pantalla 14,6"</h3><p>Resolución 2.5K, todo en un toque.</p></div>
+          </article>
+          <article class="m-card m-card--simple" style="--tone:var(--p-leaf)">
+            <img src="assets/img/m/i-materiales-sm.webp" alt="Vista superior del habitáculo" loading="lazy">
+            <div class="m-card__text"><h3>Materiales certificados</h3><p>Tejidos OEKO-TEX® de bajas emisiones.</p></div>
+          </article>
         </div>
       </div>
     </section>
 
     <section class="m-trims" aria-label="Acabados interiores">
-      <img class="m-trims__img is-active" data-trim="0" src="assets/img/official/trim-tela.webp" alt="Interior del B03X con tapicería de tela negra" loading="lazy">
-      <img class="m-trims__img" data-trim="1" src="assets/img/official/trim-gris.webp" alt="Interior del B03X con cuero ecológico gris" loading="lazy">
-      <img class="m-trims__img" data-trim="2" src="assets/img/official/trim-negro.webp" alt="Interior del B03X con cuero ecológico negro" loading="lazy">
-      <p class="m-trims__name" id="trim-name" aria-live="polite">Tela negra</p>
-      <div class="m-trims__ctrl">
-        <p class="m-colors__label">Elegí tu estilo</p>
-        <div class="m-picker m-picker--glass" data-picker="trims">
-          <button class="m-picker__arrow" data-dir="-1" aria-label="Acabado anterior">←</button>
-          <div class="m-picker__dots" role="radiogroup" aria-label="Acabado interior">
-            <button class="m-dot is-active" role="radio" aria-checked="true" aria-label="Tela negra" data-name="Tela negra" style="--c:#151515"></button>
-            <button class="m-dot" role="radio" aria-checked="false" aria-label="Cuero ecológico gris" data-name="Cuero ecológico gris" style="--c:#a0a0a5"></button>
-            <button class="m-dot" role="radio" aria-checked="false" aria-label="Cuero ecológico negro" data-name="Cuero ecológico negro" style="--c:#060606"></button>
-          </div>
-          <button class="m-picker__arrow" data-dir="1" aria-label="Acabado siguiente">→</button>
-        </div>
+      <div class="m-trims__sticky">
+        <img class="m-trims__img is-active" data-trim="0" src="assets/img/official/trim-tela.webp" alt="Interior del B03X con tapicería de tela negra" loading="lazy">
+        <img class="m-trims__img" data-trim="1" src="assets/img/official/trim-gris.webp" alt="Interior del B03X con cuero ecológico gris" loading="lazy">
+        <img class="m-trims__img" data-trim="2" src="assets/img/official/trim-negro.webp" alt="Interior del B03X con cuero ecológico negro" loading="lazy">
       </div>
     </section>
 
     <section class="m-dark m-space" aria-label="Más espacio. Más posibilidades.">
-      <div class="m-wrap">
-        <h2 class="m-h2">Más espacio. Más posibilidades.</h2>
-        <p class="m-sub">Cada elemento está diseñado para adaptarse, maximizando el espacio y la funcionalidad para el uso<br class="m-hide-sm"> cotidiano. Sus asientos flexibles permiten una gran versatilidad.</p>
-      </div>
-      <div class="m-space__media">
-        <img src="assets/img/m/i-espacio-sm.webp" srcset="assets/img/m/i-espacio-sm.webp 1100w, assets/img/m/i-espacio.webp 2400w" sizes="100vw" alt="Segunda fila de asientos del B03X" loading="lazy" decoding="async">
-        <div class="m-wrap m-space__feats">
-          <div class="m-feat">
-            <span class="m-feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="4" rx="1"/><path d="M5 9v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9M10 13h4"/></svg></span>
-            <h3>Carga flexible</h3>
-            <p>Hasta 510 litros de almacenamiento, incluida una GigaBox oculta, impermeable y lavable. Proporciones líderes en su clase y hasta 2,53 m de longitud de carga.</p>
+      <div class="m-space__sticky">
+        <div class="m-wrap m-space__body">
+          <div class="m-space__liters">
+            <h2 class="m-h2">Más espacio.<br>Más posibilidades.</h2>
+            <p class="m-sub m-space__desc">Cada elemento está diseñado para adaptarse, maximizando el espacio y la funcionalidad para el uso cotidiano. Sus asientos flexibles permiten una gran versatilidad.</p>
+            <span class="m-space__num" id="liters">405</span>
+            <small>litros de maletero</small>
+            <span class="m-space__bar"><i id="liters-bar"></i></span>
+            <p class="m-space__hint">Abatí los asientos traseros 60/40 y pasá de familia a mudanza en segundos.</p>
           </div>
-          <div class="m-feat">
-            <span class="m-feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/><path d="m16.5 3.5 3 3-3 3-3-3z"/></svg></span>
-            <h3>Almacenamiento inteligente</h3>
-            <p>33 compartimentos mantienen todo organizado. Una consola flotante libera espacio abajo, mientras la parte superior integra conectividad.</p>
-          </div>
-          <div class="m-feat">
-            <span class="m-feat__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="4.5" r="1.8"/><path d="M8 8v6h6l3 5M8 14l-2 5h8"/></svg></span>
-            <h3>Asientos adaptables</h3>
-            <p>Los asientos mágicos, con cojines abatibles, crean espacio vertical adicional. Perfectos para objetos más altos o voluminosos, sin renunciar al confort.</p>
+          <div class="m-space__frames">
+            <img src="assets/img/b03x-43.webp" alt="Asientos traseros en posición normal" loading="lazy">
+            <img src="assets/img/b03x-32.webp" alt="Apoyabrazos central desplegado" loading="lazy">
+            <img src="assets/img/b03x-44.webp" alt="Respaldo trasero comenzando a abatirse" loading="lazy">
+            <img src="assets/img/b03x-29.webp" alt="Respaldo trasero abatiéndose" loading="lazy">
+            <img src="assets/img/b03x-31.webp" alt="Asiento trasero completamente abatido" loading="lazy">
           </div>
         </div>
       </div>
@@ -351,41 +367,35 @@
 
     <section class="m-dark m-tech" aria-label="Tecnología">
       <div class="m-wrap">
-        <div class="m-carousel" data-carousel>
+        <div class="m-carousel m-carousel--scroll">
           <div class="m-carousel__track">
-            <article class="m-card m-card--tech">
+            <article class="m-card m-card--tech" style="--tone:var(--p-sun)">
               <img src="assets/img/m/i-pantalla-sm.webp" alt="Conductor usando la pantalla central" loading="lazy">
               <button class="m-card__plus" aria-expanded="false" aria-label="Más información sobre el asistente de voz">+</button>
               <div class="m-card__text"><h3>Asistente de voz</h3><p>Hablá de forma natural, controlá sin esfuerzo. Ajustá el climatizador, las ventanas o la navegación con simples comandos de voz.</p></div>
             </article>
-            <article class="m-card m-card--tech">
+            <article class="m-card m-card--tech" style="--tone:var(--p-leaf)">
               <img src="assets/img/m/t-leapos-sm.webp" alt="Pantalla de Leap OS" loading="lazy">
               <button class="m-card__plus" aria-expanded="false" aria-label="Más información sobre Leap OS">+</button>
               <div class="m-card__text"><h3>Leap OS</h3><p>El cerebro de tu Leapmotor. Un sistema operativo inteligente que mantiene tu carro conectado y ágil.</p></div>
             </article>
-            <article class="m-card m-card--tech">
+            <article class="m-card m-card--tech" style="--tone:var(--p-sky)">
               <video src="assets/video/adas.mp4" muted loop playsinline autoplay preload="none" aria-label="Sensores de asistencia a la conducción"></video>
               <button class="m-card__plus" aria-expanded="false" aria-label="Más información sobre la conducción asistida">+</button>
               <div class="m-card__text"><h3>Conducción asistida inteligente</h3><p>17 sistemas inteligentes que aportan seguridad y tranquilidad. Un aliado que hace que cada trayecto sea suave.</p></div>
             </article>
-            <article class="m-card m-card--tech">
+            <article class="m-card m-card--tech" style="--tone:var(--p-pink)">
               <img src="assets/img/m/t-app-sm.webp" alt="Leapmotor App en un teléfono" loading="lazy">
               <button class="m-card__plus" aria-expanded="false" aria-label="Más información sobre Leapmotor App">+</button>
               <div class="m-card__text"><h3>Leapmotor App</h3><p>Tu carro, siempre con vos. Controlá y gestioná todas las funciones en tiempo real desde tu teléfono.</p></div>
             </article>
-            <article class="m-card m-card--tech">
+            <article class="m-card m-card--tech" style="--tone:var(--p-cream)">
               <img src="assets/img/m/t-ota-sm.webp" alt="Actualización remota en curso" loading="lazy">
               <button class="m-card__plus" aria-expanded="false" aria-label="Más información sobre las actualizaciones OTA">+</button>
               <div class="m-card__text"><h3>Actualizaciones OTA</h3><p>Tu carro evoluciona con el tiempo. Recibí mejoras al instante, con actualizaciones enviadas directamente por aire.</p></div>
             </article>
           </div>
-          <div class="m-carousel__nav">
-            <div class="m-carousel__dots"></div>
-            <div class="m-carousel__arrows">
-              <button class="m-arrow" data-dir="-1" aria-label="Anterior">←</button>
-              <button class="m-arrow" data-dir="1" aria-label="Siguiente">→</button>
-            </div>
-          </div>
+          <div class="m-tech__progress" aria-hidden="true"><i id="tech-bar"></i></div>
         </div>
       </div>
     </section>
@@ -434,7 +444,7 @@
       <div class="m-wrap">
         <h2 class="m-h2">Versiones B03X</h2>
         <div class="m-versions__grid">
-          <article class="m-version">
+          <article class="m-version" style="--tone:var(--p-sun)">
             <img src="assets/car/colors/side-bellota.webp" alt="B03X Life en Marrón Bellota" loading="lazy">
             <h3>Life</h3>
             <div class="m-acc">
@@ -445,7 +455,7 @@
             </div>
             <button class="m-link m-version__all" type="button">Ver todo <span aria-hidden="true">+</span></button>
           </article>
-          <article class="m-version">
+          <article class="m-version" style="--tone:var(--p-pink)">
             <img src="assets/car/colors/side-escarcha.webp" alt="B03X Design en Beige Escarcha" loading="lazy">
             <h3>Design</h3>
             <div class="m-acc">
@@ -580,6 +590,7 @@
             <a href="https://leapmotorcr.com/c10-reev/">C10 REEV</a>
             <a href="https://leapmotorcr.com/c10ev/">C10EV</a>
             <a href="https://leapmotorcr.com/b10ev/">B10EV</a>
+            <a href="#intro" aria-current="page">B03X</a>
           </nav>
           <nav class="footer__menu" aria-label="Empresa">
             <a href="https://leapmotorcr.com/nosotros/">Nosotros</a>
@@ -608,6 +619,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script src="js/main.js?v=5"></script>
+  <script src="js/main.js?v=16"></script>
 </body>
 </html>
