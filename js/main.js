@@ -191,6 +191,15 @@
 
   /* ---------- Historias: imagen fija mientras el texto pasa de tenue a blanco ---------- */
   const BARS = 136; // header (72) + sub-navegación (64)
+  // toda historia con foto y texto se oscurece al aparecer el texto (como "Leapmotor, mi decisión.")
+  $$('.m-story').forEach((st) => {
+    const im = $('.m-story__img', st);
+    if (im && !$('.m-story__shade', st)) {
+      const sh = document.createElement('div');
+      sh.className = 'm-story__shade'; sh.setAttribute('aria-hidden', 'true');
+      im.after(sh);
+    }
+  });
   const shade0 = (st) => ($('.m-story__shade', st) ? 0 : 0.3);
   $$('.m-story').forEach((st) => {
     const text = $('.m-story__text', st);
@@ -205,7 +214,7 @@
     if (img) tl.fromTo(img, { scale: 1 + 0.08 * M }, { scale: 1, duration: 1 }, 0);
     // fondo que se oscurece mientras aparece el texto
     const shade = $('.m-story__shade', st);
-    if (shade) tl.fromTo(shade, { opacity: 0 }, { opacity: 0.55, duration: 0.45, ease: 'power1.out' }, 0);
+    if (shade) tl.fromTo(shade, { opacity: 0 }, { opacity: st.classList.contains('m-story--decision') ? 0.55 : 0.45, duration: 0.45, ease: 'power1.out' }, 0);
     // el carro visto desde arriba entra por la izquierda, pasa por encima del texto
     // y sale completo por la derecha en línea recta; recién entonces sigue el scroll
     if (car) {
