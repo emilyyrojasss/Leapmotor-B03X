@@ -800,3 +800,28 @@
 }
 @media (max-width: 350px) { .hero__actions { flex-wrap: wrap; } }
 @media (max-width: 380px) { .hero .m-btn { padding: 9px 12px !important; font-size: 12px !important; } }
+
+/* ---------- Reto B03X: animaciones ---------- */
+.m-video { transition: transform .5s cubic-bezier(.22,1,.36,1); }
+.m-video:hover { transform: translateY(-6px); }
+.m-video__play { box-shadow: 0 20px 40px -24px rgba(0,0,0,.6); transition: box-shadow .5s; }
+.m-video:hover .m-video__play { box-shadow: 0 28px 50px -22px rgba(0,0,0,.7); }
+.m-video__play img { transition: transform 1s cubic-bezier(.22,1,.36,1), filter .5s; }
+.m-video:hover .m-video__play img { transform: scale(1.07); filter: brightness(1.05); }
+/* anillo que late alrededor del botón de play */
+.m-video__btn::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.8); animation: playPulse 2.2s ease-out infinite;
+}
+.m-video:nth-child(2) .m-video__btn::after { animation-delay: .7s; }
+.m-video:nth-child(3) .m-video__btn::after { animation-delay: 1.4s; }
+@keyframes playPulse { 0% { transform: scale(1); opacity: .9; } 80%, 100% { transform: scale(1.6); opacity: 0; } }
+.m-video__btn { transition: transform .4s cubic-bezier(.22,1,.36,1), background .3s; }
+.m-video:hover .m-video__btn { background: var(--p-sun); }
+.m-video__tag { transition: background .3s; }
+.m-video:hover .m-video__tag { background: var(--p-green); }
+.m-video h3 { transition: color .3s; }
+.m-video:hover h3 { color: var(--p-sun); }
+.m-challenge__yt svg { transition: transform .4s; }
+.m-challenge__yt:hover svg { transform: scale(1.15); }
+@media (prefers-reduced-motion: reduce) { .m-video__btn::after { animation: none; } }

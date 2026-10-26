@@ -287,6 +287,23 @@
     });
   }
 
+  /* ---------- Reto B03X: entrada de encabezado y videos ---------- */
+  if ($('.m-challenge')) {
+    gsap.timeline({ scrollTrigger: { trigger: '.m-challenge', start: 'top 75%', once: true } })
+      .from('.m-challenge__head .m-kicker, .m-challenge__title, .m-challenge__head .m-sub', { y: 40 * M, opacity: 0, duration: 0.9, stagger: 0.1, ease: 'expo.out' })
+      .from('.m-challenge__yt', { scale: 0.85, opacity: 0, duration: 0.7, ease: 'back.out(1.8)' }, 0.25);
+    $$('.m-video').forEach((v, i) => {
+      const card = $('.m-video__play', v);
+      const tl = gsap.timeline({ scrollTrigger: { trigger: '.m-challenge__grid', start: 'top 85%', once: true }, delay: i * 0.15 });
+      tl.fromTo(card, { clipPath: `inset(${100 * M}% 0% 0% 0% round 12px)` }, { clipPath: 'inset(0% 0% 0% 0% round 12px)', duration: 1.1, ease: 'expo.inOut' })
+        .from($('img', card), { scale: 1 + 0.25 * M, duration: 1.4, ease: 'expo.out' }, 0.2)
+        .from($('.m-video__tag', v), { x: -20 * M, opacity: 0, duration: 0.6, ease: 'power3.out' }, 0.7)
+        .from($('.m-video__btn', v), { scale: 0, duration: 0.7, ease: 'back.out(2)' }, 0.75)
+        .from($('h3', v), { y: 16 * M, opacity: 0, duration: 0.6, ease: 'power3.out' }, 0.8);
+      tl.add(() => gsap.set([card, $('img', card), $('.m-video__btn', v)], { clearProps: 'all' }));
+    });
+  }
+
   /* ---------- Sub-navegación: sección activa ---------- */
   const subLinks = $$('.m-subnav__links a').map((a) => [a, $(a.getAttribute('href'))]).filter(([, sec]) => sec);
   const updateSub = () => {
